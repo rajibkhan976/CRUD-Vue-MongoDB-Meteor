@@ -8,6 +8,7 @@
 		  <th scope="col">Email</th>
 		  <th scope="col">Phone</th>
 		  <th scope="col">DOB</th>
+		  <th scope="col">Subjects</th>
 		  <th scope="col">Actions</th>
 		</tr>
 	  </thead>
@@ -16,7 +17,8 @@
 		  <td>{{ student.studentName }}</td>
 		  <td>{{ student.email }}</td>
 		  <td>{{ student.phone }}</td>
-		  <td>{{ student.dateOfBirth }}</td>
+		  <td>{{ formatDate(student.dateOfBirth) }}</td>
+		  <td>{{ fetchStudentSubjects(student.studentName) }}</td>
 		  <td>
 			<b-button
             variant="outline-secondary"
@@ -46,6 +48,7 @@ import { Students } from "../api/students.js";
 import { Subjects } from "../api/subjects.js";
 import { mapMutations } from 'vuex';
 import { mapActions } from 'vuex';
+import moment from 'moment';
 
 export default {
   name: 'StudentList',
@@ -69,6 +72,19 @@ export default {
 	},
 	deleteStudent(id) {
 	 Meteor.call("students.remove", id);
+	},
+	fetchStudentSubjects(studentName) {
+		if (Subjects.find({}).fetch()) {
+			let subjectsArrObj = Subjects.find({students: studentName}, {fields: {subjectName: 1, _id: 0}}).fetch();
+			let subjectsArr = [];
+			subjectsArrObj.forEach((element) => {
+				subjectsArr.push(element.subjectName);
+			});
+			return subjectsArr.toString().replace(/,/g, ", ");;
+		}
+	},
+	formatDate(date) {
+	 return moment(date).format("DD-MM-YYYY");
 	}
   },
   meteor: {

@@ -12,7 +12,7 @@
 	  <tbody v-for="subject in subjects">
 		<tr>
 		  <td>{{ subject.subjectName }}</td>
-		  <td>{{ subject.students.toString() }}</td>
+		  <td>{{ subject.students.toString().replace(/,/g, ", ") }}</td>
 		  <td>
 			<b-button
             variant="outline-secondary"
