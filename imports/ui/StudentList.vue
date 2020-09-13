@@ -80,7 +80,7 @@ export default {
 			subjectsArrObj.forEach((element) => {
 				subjectsArr.push(element.subjectName);
 			});
-			return subjectsArr.toString().replace(/,/g, ", ");;
+			return subjectsArr.toString().replace(/,/g, ", ");
 		}
 	},
 	formatDate(date) {
